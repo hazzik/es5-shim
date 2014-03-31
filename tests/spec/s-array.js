@@ -77,6 +77,16 @@ describe('Array', function() {
             expect(actual).toExactlyMatch(expected);
         });
 
+        it('should not be enumerable', function () {
+            var found = false;
+            for(var i in Array.prototype) {
+                if (i === 'forEach') {
+                    found = true;
+                }
+            }
+            expect(found).toBe(false);
+        });
+
         describe('strings', function() {
             var str = 'Hello, World!';
             it('should iterate all in a string', function() {
@@ -206,6 +216,15 @@ describe('Array', function() {
             expect(typeof actual).toBe('object');
             expect(toString.call(actual)).toBe('[object String]');
         });
+        it('should not be enumerable', function () {
+            var found = false;
+            for(var i in Array.prototype) {
+                if (i === 'some') {
+                    found = true;
+                }
+            }
+            expect(found).toBe(false);
+        });
     });
     describe('every', function() {
         var actual, expected, numberOfRuns;
@@ -312,6 +331,15 @@ describe('Array', function() {
             expect(typeof actual).toBe('object');
             expect(toString.call(actual)).toBe('[object String]');
         });
+        it('should not be enumerable', function () {
+            var found = false;
+            for(var i in Array.prototype) {
+                if (i === 'every') {
+                    found = true;
+                }
+            }
+            expect(found).toBe(false);
+        });
     });
 
     describe('indexOf', function() {
@@ -365,6 +393,15 @@ describe('Array', function() {
         });
         it('should work with fromIndex being negative and greater than the length', function() {
             expect(testSubject.indexOf('hej', -20)).toEqual(4);
+        });
+        it('should not be enumerable', function () {
+            var found = false;
+            for(var i in Array.prototype) {
+                if (i === 'indexOf') {
+                    found = true;
+                }
+            }
+            expect(found).toBe(false);
         });
 
         describe('Array-like', function ArrayLike() {
@@ -529,6 +566,15 @@ describe('Array', function() {
                 expect(lastIndexOf.call(testAL, 2, -20)).toEqual(-1);
             });
         });
+        it('should not be enumerable', function () {
+            var found = false;
+            for(var i in Array.prototype) {
+                if (i === 'lastIndexOf') {
+                    found = true;
+                }
+            }
+            expect(found).toBe(false);
+        });
     });
 
     describe('filter', function() {
@@ -677,6 +723,15 @@ describe('Array', function() {
             expect(typeof actual).toBe('object');
             expect(toString.call(actual)).toBe('[object String]');
         });
+        it('should not be enumerable', function () {
+            var found = false;
+            for(var i in Array.prototype) {
+                if (i === 'filter') {
+                    found = true;
+                }
+            }
+            expect(found).toBe(false);
+        });
     });
     describe('map', function() {
         var callback;
@@ -800,6 +855,15 @@ describe('Array', function() {
             });
             expect(typeof actual).toBe('object');
             expect(toString.call(actual)).toBe('[object String]');
+        });
+        it('should not be enumerable', function () {
+            var found = false;
+            for(var i in Array.prototype) {
+                if (i === 'map') {
+                    found = true;
+                }
+            }
+            expect(found).toBe(false);
         });
     });
 
@@ -958,6 +1022,15 @@ describe('Array', function() {
             expect(typeof actual).toBe('object');
             expect(toString.call(actual)).toBe('[object String]');
         });
+        it('should not be enumerable', function () {
+            var found = false;
+            for(var i in Array.prototype) {
+                if (i === 'reduce') {
+                    found = true;
+                }
+            }
+            expect(found).toBe(false);
+        });
     });
     describe('reduceRight', function() {
         beforeEach(function() {
@@ -1114,6 +1187,15 @@ describe('Array', function() {
                 expect(testSubject.reduceRight.length).toBe(1);
             });
         });
+        it('should not be enumerable', function () {
+            var found = false;
+            for(var i in Array.prototype) {
+                if (i === 'reduceRight') {
+                    found = true;
+                }
+            }
+            expect(found).toBe(false);
+        });
     });
 
     describe('isArray', function () {
@@ -1142,6 +1224,16 @@ describe('Array', function() {
             objects.forEach(function (v) {
                 expect(Array.isArray(v)).toBe(false);
             });
+        });
+
+        it('should not be enumerable', function () {
+            var found = false;
+            for(var i in Array) {
+                if (i === 'isArray') {
+                    found = true;
+                }
+            }
+            expect(found).toBe(false);
         });
     });
 

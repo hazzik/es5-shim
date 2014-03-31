@@ -129,6 +129,15 @@ describe('Date', function () {
             expect(new Date(-3509827334573292).toISOString()).toBe('-109252-01-01T10:37:06.708Z'); // Opera 11.61/Opera 12 bug with Date#getUTCMonth
         });
 
+        it('should not be enumerable', function () {
+            var found = false;
+            for(var i in Date.prototype) {
+                if (i === 'toISOString') {
+                    found = true;
+                }
+            }
+            expect(found).toBe(false);
+        });
     });
 
     describe("toJSON", function () {
@@ -155,6 +164,16 @@ describe('Date', function () {
             var date = new Date();
             expect(JSON.stringify(date.toISOString())).toBe(JSON.stringify(date));
         }) 
+
+        it('should not be enumerable', function () {
+            var found = false;
+            for(var i in Date.prototype) {
+                if (i === 'toJSON') {
+                    found = true;
+                }
+            }
+            expect(found).toBe(false);
+        });
     });
 
 });

@@ -45,8 +45,18 @@
 
 function Empty() {}
 
+var defineProperty = Object.defineProperty;
+try { 
+    defineProperty && defineProperty({}, 'answer', { value:42 });
+} catch (e) {
+    defineProperty = undefined;
+}
+defineProperty = defineProperty || function (obj, prop, descriptor) {
+    obj[prop] = descriptor.value;
+}
+
 if (!Function.prototype.bind) {
-    Function.prototype.bind = function bind(that) { // .length is 1
+    function bind(that) { // .length is 1
         // 1. Let Target be the this value.
         var target = this;
         // 2. If IsCallable(Target) is false, throw a TypeError exception.
@@ -176,6 +186,7 @@ if (!Function.prototype.bind) {
         // 22. Return F.
         return bound;
     };
+    defineProperty(Function.prototype, 'bind', { value : bind, writable : true, configurable : true });
 }
 
 // Shortcut to an often accessed properties, in order to avoid multiple
@@ -322,9 +333,10 @@ if ([].unshift(0) != 1) {
 // http://es5.github.com/#x15.4.3.2
 // https://developer.mozilla.org/en/JavaScript/Reference/Global_Objects/Array/isArray
 if (!Array.isArray) {
-    Array.isArray = function isArray(obj) {
+    function isArray(obj) {
         return _toString(obj) == "[object Array]";
     };
+    defineProperty(Array, 'isArray', { value : isArray, writable : true, configurable : true });
 }
 
 // The IsCallable() check in the Array functions
@@ -361,7 +373,7 @@ var properlyBoxesContext = function properlyBoxed(method) {
 };
 
 if (!Array.prototype.forEach || !properlyBoxesContext(Array.prototype.forEach)) {
-    Array.prototype.forEach = function forEach(fun /*, thisp*/) {
+    function forEach(fun /*, thisp*/) {
         var object = toObject(this),
             self = splitString && _toString(this) == "[object String]" ?
                 this.split("") :
@@ -384,13 +396,14 @@ if (!Array.prototype.forEach || !properlyBoxesContext(Array.prototype.forEach)) 
             }
         }
     };
+    defineProperty(Array.prototype, 'forEach', { value : forEach, writable : true, configurable : true });
 }
 
 // ES5 15.4.4.19
 // http://es5.github.com/#x15.4.4.19
 // https://developer.mozilla.org/en/Core_JavaScript_1.5_Reference/Objects/Array/map
 if (!Array.prototype.map || !properlyBoxesContext(Array.prototype.map)) {
-    Array.prototype.map = function map(fun /*, thisp*/) {
+    function map(fun /*, thisp*/) {
         var object = toObject(this),
             self = splitString && _toString(this) == "[object String]" ?
                 this.split("") :
@@ -410,13 +423,14 @@ if (!Array.prototype.map || !properlyBoxesContext(Array.prototype.map)) {
         }
         return result;
     };
+    defineProperty(Array.prototype, 'map', { value : map, writable : true, configurable : true });
 }
 
 // ES5 15.4.4.20
 // http://es5.github.com/#x15.4.4.20
 // https://developer.mozilla.org/en/Core_JavaScript_1.5_Reference/Objects/Array/filter
 if (!Array.prototype.filter || !properlyBoxesContext(Array.prototype.filter)) {
-    Array.prototype.filter = function filter(fun /*, thisp */) {
+    function filter(fun /*, thisp */) {
         var object = toObject(this),
             self = splitString && _toString(this) == "[object String]" ?
                 this.split("") :
@@ -441,13 +455,14 @@ if (!Array.prototype.filter || !properlyBoxesContext(Array.prototype.filter)) {
         }
         return result;
     };
+    defineProperty(Array.prototype, 'filter', { value : filter, writable : true, configurable : true });
 }
 
 // ES5 15.4.4.16
 // http://es5.github.com/#x15.4.4.16
 // https://developer.mozilla.org/en/JavaScript/Reference/Global_Objects/Array/every
 if (!Array.prototype.every || !properlyBoxesContext(Array.prototype.every)) {
-    Array.prototype.every = function every(fun /*, thisp */) {
+    function every(fun /*, thisp */) {
         var object = toObject(this),
             self = splitString && _toString(this) == "[object String]" ?
                 this.split("") :
@@ -467,13 +482,14 @@ if (!Array.prototype.every || !properlyBoxesContext(Array.prototype.every)) {
         }
         return true;
     };
+    defineProperty(Array.prototype, 'every', { value : every, writable : true, configurable : true });
 }
 
 // ES5 15.4.4.17
 // http://es5.github.com/#x15.4.4.17
 // https://developer.mozilla.org/en/JavaScript/Reference/Global_Objects/Array/some
 if (!Array.prototype.some || !properlyBoxesContext(Array.prototype.some)) {
-    Array.prototype.some = function some(fun /*, thisp */) {
+    function some(fun /*, thisp */) {
         var object = toObject(this),
             self = splitString && _toString(this) == "[object String]" ?
                 this.split("") :
@@ -493,13 +509,14 @@ if (!Array.prototype.some || !properlyBoxesContext(Array.prototype.some)) {
         }
         return false;
     };
+    defineProperty(Array.prototype, 'some', { value : some, writable : true, configurable : true });
 }
 
 // ES5 15.4.4.21
 // http://es5.github.com/#x15.4.4.21
 // https://developer.mozilla.org/en/Core_JavaScript_1.5_Reference/Objects/Array/reduce
 if (!Array.prototype.reduce) {
-    Array.prototype.reduce = function reduce(fun /*, initial*/) {
+    function reduce(fun /*, initial*/) {
         var object = toObject(this),
             self = splitString && _toString(this) == "[object String]" ?
                 this.split("") :
@@ -542,13 +559,14 @@ if (!Array.prototype.reduce) {
 
         return result;
     };
+    defineProperty(Array.prototype, 'reduce', { value : reduce, writable : true, configurable : true });
 }
 
 // ES5 15.4.4.22
 // http://es5.github.com/#x15.4.4.22
 // https://developer.mozilla.org/en/Core_JavaScript_1.5_Reference/Objects/Array/reduceRight
 if (!Array.prototype.reduceRight) {
-    Array.prototype.reduceRight = function reduceRight(fun /*, initial*/) {
+    function reduceRight(fun /*, initial*/) {
         var object = toObject(this),
             self = splitString && _toString(this) == "[object String]" ?
                 this.split("") :
@@ -594,13 +612,14 @@ if (!Array.prototype.reduceRight) {
 
         return result;
     };
+    defineProperty(Array.prototype, 'reduceRight', { value : reduceRight, writable : true, configurable : true });
 }
 
 // ES5 15.4.4.14
 // http://es5.github.com/#x15.4.4.14
 // https://developer.mozilla.org/en/JavaScript/Reference/Global_Objects/Array/indexOf
 if (!Array.prototype.indexOf || ([0, 1].indexOf(1, 2) != -1)) {
-    Array.prototype.indexOf = function indexOf(sought /*, fromIndex */ ) {
+    function indexOf(sought /*, fromIndex */ ) {
         var self = splitString && _toString(this) == "[object String]" ?
                 this.split("") :
                 toObject(this),
@@ -624,13 +643,14 @@ if (!Array.prototype.indexOf || ([0, 1].indexOf(1, 2) != -1)) {
         }
         return -1;
     };
+    defineProperty(Array.prototype, 'indexOf', { value : indexOf, writable : true, configurable : true });
 }
 
 // ES5 15.4.4.15
 // http://es5.github.com/#x15.4.4.15
 // https://developer.mozilla.org/en/JavaScript/Reference/Global_Objects/Array/lastIndexOf
 if (!Array.prototype.lastIndexOf || ([0, 1].lastIndexOf(0, -3) != -1)) {
-    Array.prototype.lastIndexOf = function lastIndexOf(sought /*, fromIndex */) {
+    function lastIndexOf(sought /*, fromIndex */) {
         var self = splitString && _toString(this) == "[object String]" ?
                 this.split("") :
                 toObject(this),
@@ -652,6 +672,7 @@ if (!Array.prototype.lastIndexOf || ([0, 1].lastIndexOf(0, -3) != -1)) {
         }
         return -1;
     };
+    defineProperty(Array.prototype, 'lastIndexOf', { value : lastIndexOf, writable : true, configurable : true });
 }
 
 //
@@ -692,7 +713,7 @@ if (!Object.keys) {
             return isArgs;
         };
 
-    Object.keys = function keys(object) {
+    function keys(object) {
         var isFn = isFunction(object),
             isArgs = isArguments(object),
             isObject = object !== null && typeof object === 'object';
@@ -721,7 +742,7 @@ if (!Object.keys) {
         }
         return keys;
     };
-
+    defineProperty(Object, 'keys', { value : keys, writable : true, configurable : true });
 }
 
 //
@@ -742,7 +763,7 @@ if (
     !Date.prototype.toISOString ||
     (new Date(negativeDate).toISOString().indexOf(negativeYearString) === -1)
 ) {
-    Date.prototype.toISOString = function toISOString() {
+    function toISOString() {
         var result, length, value, year, month;
         if (!isFinite(this)) {
             throw new RangeError("Date.prototype.toISOString called on non-finite value.");
@@ -780,6 +801,7 @@ if (
             ("000" + this.getUTCMilliseconds()).slice(-3) + "Z"
         );
     };
+    defineProperty(Date.prototype, 'toISOString', { value : toISOString, writable : true, configurable : true });
 }
 
 
@@ -802,7 +824,7 @@ try {
 } catch (e) {
 }
 if (!dateToJSONIsSupported) {
-    Date.prototype.toJSON = function toJSON(key) {
+    function toJSON(key) {
         // When the toJSON method is called with argument key, the following
         // steps are taken:
 
@@ -836,6 +858,7 @@ if (!dateToJSONIsSupported) {
         // object is free to use the argument key to filter its
         // stringification.
     };
+    defineProperty(Date.prototype, 'toJSON', { value : toJSON, writable : true, configurable : true });
 }
 
 // ES5 15.9.4.2

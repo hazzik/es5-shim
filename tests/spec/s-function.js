@@ -162,5 +162,14 @@ describe('Function', function() {
             var subject = function (a, b, c) { return a + b + c; }.bind(undefined, 1, 2, 3, 4);
             expect(subject.length).toBe(0);
         });
+        it('is not enumerable', function () {
+            var found = false;
+            for(var i in Function.prototype) {
+                if (i === 'bind') {
+                    found = true;
+                }
+            }
+            expect(found).toBe(false);
+        })
     });
 });

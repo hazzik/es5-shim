@@ -60,6 +60,16 @@ describe('Object', function () {
             expect(Object.keys(new String('hello'))).toEqual(['0', '1', '2', '3', '4']);
             expect(Object.keys(Object('hello'))).toEqual(['0', '1', '2', '3', '4']);
         });
+
+        it('should not be enumerable', function () {
+            var found = false;
+            for(var i in Object) {
+                if (i === 'keys') {
+                    found = true;
+                }
+            }
+            expect(found).toBe(false);
+        });
     });
 
     describe("Object.isExtensible", function () {
